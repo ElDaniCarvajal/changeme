@@ -21,7 +21,7 @@ import time
 try:
     # Python 2
     from Queue import Queue
-except:
+except ImportError:
     # Python 3
     from queue import Queue
 
