@@ -6,6 +6,7 @@ from logutils import colorize
 import os
 import re
 import redis
+from pathlib import Path
 from .report import Report
 import requests
 from requests import ConnectionError
@@ -272,9 +273,13 @@ def load_creds(config):
     creds = list()
     total_creds = 0
     cred_names = list()
-    cred_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'creds')
+    base_dir = Path(__file__).resolve().parent
+    cred_path = base_dir / 'creds'
+    if not cred_path.is_dir():
+        cred_path = base_dir.parent / 'creds'
+    cred_path = cred_path.resolve()
     logger.debug('cred_path: %s' % cred_path)
-    protocols = [proto for proto in os.walk(cred_path)][0][1]
+    protocols = next(os.walk(cred_path))[1]
     for root, dirs, files in os.walk(cred_path):
         for fname in files:
             f = os.path.join(root, fname)
