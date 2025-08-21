@@ -1,8 +1,8 @@
 import argparse
 from changeme import *
 from copy import deepcopy
-import mock
-from nose.tools import *
+from unittest import mock
+import pytest
 from netaddr import IPAddress
 
 
@@ -42,12 +42,13 @@ def test_banner():
 
 no_args = deepcopy(cli_args)
 no_args['target'] = None
-@raises(SystemExit)
+
 @mock.patch('argparse.ArgumentParser.parse_args', return_value=argparse.Namespace(**no_args))
 def test_no_args(mock_args):
-    args = core.parse_args()
-    core.init_logging(args['args'].verbose, args['args'].debug, args['args'].log)
-    config = core.Config(args['args'], args['parser'])
+    with pytest.raises(SystemExit):
+        args = core.parse_args()
+        core.init_logging(args['args'].verbose, args['args'].debug, args['args'].log)
+        core.Config(args['args'], args['parser'])
 
 
 args = deepcopy(cli_args)
