@@ -219,7 +219,12 @@ def parse_args():
     ap.add_argument('--proxy', '-p', type=str, help='HTTP(S) Proxy', default=None)
     ap.add_argument('--output', '-o', type=str, help='Name of result file. File extension determines type (csv, html, json).', default=None)
     ap.add_argument('--oa', action='store_true', help='Output results files in csv, html and json formats', default=False)
-    ap.add_argument('--protocols', type=str, help="Comma separated list of protocols to test: http,ssh,ssh_key. Defaults to http.", default='http')
+    ap.add_argument('--protocols', type=str,
+                    help=("Comma separated list of protocols to test: "
+                          "http, ssh, ssh_key, ftp, memcached, mongodb, mssql, "
+                          "mysql, postgres, redis, snmp, telnet. Defaults to all "
+                          "supported protocols."),
+                    default='http,ssh,ssh_key,ftp,memcached,mongodb,mssql,mysql,postgres,redis,snmp,telnet')
     ap.add_argument('--portoverride', action='store_true', help='Scan all protocols on all specified ports', default=False)
     ap.add_argument('--redishost', type=str, help='Redis server', default='localhost')
     ap.add_argument('--redisport', type=str, help='Redis server', default='6379')
